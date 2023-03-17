@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts"
   },
-  "author": "",
+  "author": "Matheus Fontana",
   "license": "ISC",
   "dependencies": {
     "@adminjs/express": "~4.0.1",
