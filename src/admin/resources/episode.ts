@@ -1,30 +1,32 @@
 import { ResourceOptions } from "adminjs";
 
-export const courseResourseOptions: ResourceOptions = {
+export const episodeResourseOptions: ResourceOptions = {
   navigation: "Tables",
   editProperties: [
     "name",
     "synopsis",
-    "uploadThumbnail",
-    "featured",
-    "categoryId",
+    "courseId",
+    "order",
+    "uploadVideo",
+    "secondsLong",
   ],
   filterProperties: [
     "name",
     "synopsis",
-    "featured",
-    "categoryId",
+    "courseId",
+    "secondsLong",
     "createdAt",
     "updatedAt",
   ],
-  listProperties: ["id", "name", "featured", "categoryId"],
+  listProperties: ["id", "name", "courseId", "order", "secondsLong"],
   showProperties: [
     "id",
     "name",
     "synopsis",
-    "thumbnailUrl",
-    "featured",
-    "categoryId",
+    "courseId",
+    "order",
+    "videoUrl",
+    "secondsLong",
     "createdAt",
     "updatedAt",
   ],
