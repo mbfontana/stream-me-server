@@ -1,4 +1,6 @@
-import { ResourceOptions } from "adminjs";
+import uploadFileFeature from "@adminjs/upload";
+import { FeatureType, ResourceOptions } from "adminjs";
+import path from "path";
 
 export const episodeResourseOptions: ResourceOptions = {
   navigation: "Tables",
@@ -31,3 +33,19 @@ export const episodeResourseOptions: ResourceOptions = {
     "updatedAt",
   ],
 };
+
+export const episodeResourceFeatures: FeatureType[] = [
+  uploadFileFeature({
+    provider: {
+      local: {
+        bucket: path.join(__dirname, "..", "..", "..", "uploads"),
+      },
+    },
+    properties: {
+      key: "videoUrl", // Key in database
+      file: "uploadVideo", // Key in AdminJS resources (defined above)
+    },
+    uploadPath: (record, filename) =>
+      `videos/course-${record.get("courseId")}/${filename}`,
+  }),
+];
