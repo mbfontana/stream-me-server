@@ -1,7 +1,7 @@
 import { Course } from "../models";
 
 export const courseService = {
-  findCourseDetails: async (id: number) => {
+  findByIdWithEpisodes: async (id: number) => {
     const courseDetails = await Course.findByPk(id, {
       attributes: ["id", "name", "synopsis", ["thumbnail_url", "thumbnailUrl"]],
       include: {
@@ -14,8 +14,21 @@ export const courseService = {
           ["video_url", "videoUrl"],
           ["seconds_long", "secondsLong"],
         ],
+        order: [["order", "ASC"]],
+        separate: true,
       },
     });
     return courseDetails;
+  },
+
+  findFeatured: async () => {
+    const featuredCourses = await Course.findAll({
+      attributes: ["id", "name", "synopsis", ["thumbnail_url", "thumbnailUrl"]],
+      where: { featured: true },
+    });
+    const randomFeaturedCourses = featuredCourses.sort(
+      () => 0.5 - Math.random() // Get a random ordered list every query
+    );
+    return randomFeaturedCourses.slice(0, 3);
   },
 };

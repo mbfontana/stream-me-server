@@ -7,6 +7,7 @@ const router = express.Router();
 router.get("/categories", categoryController.index);
 router.get("/categories/:id", categoryController.courses);
 
+router.get("/courses/featured", courseController.featured);
 router.get("/courses/:id", courseController.episodes);
 
 export { router };
