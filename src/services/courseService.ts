@@ -31,4 +31,13 @@ export const courseService = {
     );
     return randomFeaturedCourses.slice(0, 3);
   },
+
+  findReleases: async () => {
+    const releasedCourses = await Course.findAll({
+      attributes: ["id", "name", "synopsis", ["thumbnail_url", "thumbnailUrl"]],
+      limit: 10,
+      order: [["created_at", "DESC"]],
+    });
+    return releasedCourses;
+  },
 };
