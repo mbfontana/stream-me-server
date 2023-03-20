@@ -1,4 +1,4 @@
-import { Category, Course } from "../models";
+import { Category } from "../models";
 
 export const categoryService = {
   // GET - /categories

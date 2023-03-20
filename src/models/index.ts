@@ -8,7 +8,7 @@ Category.hasMany(Course, { as: "courses" });
 
 // Course Associations
 Course.belongsTo(Category);
-Course.hasMany(Episode);
+Course.hasMany(Episode, { as: "episodes" });
 
 // Episode Associations
 Episode.belongsTo(Course);
