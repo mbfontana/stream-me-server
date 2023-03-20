@@ -4,7 +4,7 @@ import { Episode } from "./Episode";
 import { User } from "./User";
 
 // Category Associations
-Category.hasMany(Course);
+Category.hasMany(Course, { as: "courses" });
 
 // Course Associations
 Course.belongsTo(Category);
