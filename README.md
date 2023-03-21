@@ -34,7 +34,7 @@ This application provides the following features:
 While the platform currently features a selection of short, copyright-free videos, it is designed to accommodate real courses and episodes with ease.
 
 ## API Design
-I designed the API to be powerful, flexible, and easy to use. I used Postman to create a comprehensive API documentation that you can use to understand the available endpoints and parameters. You can access the documentation by clicking on this link: link to API documentation.
+I designed the API to be powerful, flexible, and easy to use. I used Postman to create a comprehensive API documentation that you can use to understand the available endpoints and parameters. You can access the documentation by clicking on this link: [link to API documentation](https://documenter.getpostman.com/view/19214258/2s93RKzbXT).
 
 The API is built using NodeJS and PostgreSQL, and uses the Sequelize ORM to interact with the database. We have also implemented authentication and authorization using JSON Web Tokens (JWT). This ensures that only authorized users can access the API and perform certain actions.
 
