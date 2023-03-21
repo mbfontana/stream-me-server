@@ -3,7 +3,7 @@ import { authController } from "./controllers/authController";
 import { categoryController } from "./controllers/categoryController";
 import { courseController } from "./controllers/courseController";
 import { episodeController } from "./controllers/episodeController";
-import ensureAuth from "./middlewares/auth";
+import { ensureAuth, ensureAuthViaQuery } from "./middlewares/auth";
 
 const router = express.Router();
 
@@ -18,6 +18,6 @@ router.get("/courses/search", ensureAuth, courseController.search);
 router.get("/courses/releases", courseController.releases);
 router.get("/courses/:id", ensureAuth, courseController.episodes);
 
-router.get("/episodes/stream", episodeController.stream);
+router.get("/episodes/stream", ensureAuthViaQuery, episodeController.stream);
 
 export { router };

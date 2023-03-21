@@ -8,7 +8,7 @@ export interface AuthenticatedRequest extends Request {
   user?: UserInstance | null;
 }
 
-export default function ensureAuth(
+function ensureAuth(
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
@@ -20,17 +20,45 @@ export default function ensureAuth(
   } else {
     const token = authorizationHeaders.replace(/Bearer /, "");
 
-    jwtService.verifyToken(token, (err, decoded) => {
+    jwtService.verifyToken(token, async (err, decoded) => {
       if (err || typeof decoded === "undefined") {
         return res
           .status(401)
           .json({ message: "Not Authorized. Invalid token." });
       }
 
-      userService.findByEmail((decoded as JwtPayload).email).then((user) => {
-        req.user = user;
-        next();
-      });
+      const user = await userService.findByEmail((decoded as JwtPayload).email);
+      req.user = user;
+      next();
     });
   }
 }
+
+function ensureAuthViaQuery(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) {
+  const { token } = req.query;
+
+  if (!token) {
+    return res.status(401).json({ message: "Not Authorized. No token found." });
+  }
+  if (typeof token !== "string") {
+    return res.status(401).json({ message: "Not Authorized. Invalid token." });
+  }
+
+  jwtService.verifyToken(token, async (err, decoded) => {
+    if (err || typeof decoded === "undefined") {
+      return res
+        .status(401)
+        .json({ message: "Not Authorized. Invalid token." });
+    }
+
+    const user = await userService.findByEmail((decoded as JwtPayload).email);
+    req.user = user;
+    next();
+  });
+}
+
+export { ensureAuth, ensureAuthViaQuery };
