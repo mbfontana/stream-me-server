@@ -9,8 +9,8 @@ export interface Favorite {
 }
 
 export interface FavoriteInstance extends Model<Favorite>, Favorite {
-  user?: UserInstance;
-  course?: CourseInstance;
+  User?: UserInstance;
+  Course?: CourseInstance;
 }
 
 export const Favorite = database.define<FavoriteInstance, Favorite>(

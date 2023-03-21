@@ -3,6 +3,21 @@ import { AuthenticatedRequest } from "../middlewares/auth";
 import { favoriteService } from "../services/favoriteService";
 
 export const favoriteController = {
+  // GET - /favorites
+  index: async (req: AuthenticatedRequest, res: Response) => {
+    const userId = req.user!.id;
+
+    try {
+      const favorites = await favoriteService.findByUserId(userId);
+      res.status(200).json(favorites);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+      throw new Error("Unknown error while trying to add new favorite course.");
+    }
+  },
+
   // POST - /favorites
   save: async (req: AuthenticatedRequest, res: Response) => {
     const { courseId } = req.body;
