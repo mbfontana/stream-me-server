@@ -1,6 +1,5 @@
 import { User } from "../models";
 import { UserCreationAttributes } from "../models/User";
-import bcrypt from "bcrypt";
 
 export const userService = {
   findByEmail: async (email: string) => {
@@ -9,16 +8,5 @@ export const userService = {
 
   create: async (attributes: UserCreationAttributes) => {
     return await User.create(attributes);
-  },
-
-  login: async (email: string, password: string) => {
-    const user = await userService.findByEmail(email);
-
-    if (user) {
-      const matched = await bcrypt.compare(password, user.password);
-      if (matched) return user;
-    }
-
-    return false;
   },
 };

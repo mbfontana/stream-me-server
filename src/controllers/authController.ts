@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
+import { jwtService } from "../services/jwtService";
 import { userService } from "../services/userService";
 
 export const authController = {
-  // GET - /auth/register
+  // POST - /auth/register
   register: async (req: Request, res: Response) => {
     const attributes = req.body;
 
@@ -19,25 +20,39 @@ export const authController = {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
       }
-      throw new Error("Unknown error while trying to stream video.");
+      throw new Error("Unknown error while trying to register user.");
     }
   },
 
-  // GET - /auth/login
+  // POST - /auth/login
   login: async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     try {
-      const user = userService.login(email, password);
+      const user = await userService.findByEmail(email);
 
-      if (user) {
-        res.status(200).json(user);
+      if (!user) {
+        return res.status(404).json({ message: "User not registered." });
       }
+
+      user.checkPassword(password, (err, isSame) => {
+        if (err) return res.status(400).json({ message: err });
+        if (!isSame) return res.status(401).json({ message: "Incorrect password." });
+
+        const payload = {
+          id: user.id,
+          firstName: user.firstName,
+          email: user.email,
+        };
+        const token = jwtService.signToken(payload, "1d");
+
+        return res.json({ authenticated: true, ...payload, token });
+      });
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
       }
-      throw new Error("Unknown error while trying to stream video.");
+      throw new Error("Unknown error while trying to login user.");
     }
   },
 };
