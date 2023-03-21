@@ -1,9 +1,13 @@
 import express from "express";
+import { authController } from "./controllers/authController";
 import { categoryController } from "./controllers/categoryController";
 import { courseController } from "./controllers/courseController";
 import { episodeController } from "./controllers/episodeController";
 
 const router = express.Router();
+
+router.post("/auth/register", authController.register);
+router.post("/auth/login", authController.login);
 
 router.get("/categories", categoryController.index);
 router.get("/categories/:id", categoryController.courses);

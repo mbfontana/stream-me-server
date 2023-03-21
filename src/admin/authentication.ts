@@ -3,7 +3,7 @@ import { User } from "../models";
 import bcrypt from "bcrypt";
 
 export const autheticationOptions: AuthenticationOptions = {
-  authenticate: async (email, password) => {
+  authenticate: async (email: string, password: string) => {
     const user = await User.findOne({ where: { email } });
 
     if (user && user.role === "admin") {
