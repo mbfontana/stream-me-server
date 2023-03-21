@@ -30,7 +30,7 @@ export const Course = database.define<CourseInstance, Course>("Course", {
   },
   synopsis: {
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
   thumbnailUrl: {
     type: DataTypes.STRING,

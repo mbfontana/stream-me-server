@@ -15,7 +15,7 @@ module.exports = {
       },
       synopsis: {
         allowNull: false,
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.DataTypes.TEXT,
       },
       thumbnail_url: {
         type: Sequelize.DataTypes.STRING,
