@@ -1,7 +1,5 @@
-import { Model, DataTypes, Optional } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import { database } from "../database";
-import { CourseInstance } from "./Course";
-import { UserInstance } from "./User";
 
 export interface Like {
   userId: number;

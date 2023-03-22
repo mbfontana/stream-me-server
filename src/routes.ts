@@ -22,6 +22,8 @@ router.get("/courses/releases", courseController.releases);
 router.get("/courses/:id", ensureAuth, courseController.details);
 
 router.get("/episodes/stream", ensureAuthViaQuery, episodeController.stream);
+router.get("/episodes/:id/watchTime", ensureAuth, episodeController.getWatchTime);
+router.post("/episodes/:id/watchTime", ensureAuth, episodeController.setWatchTime);
 
 router.get("/favorites", ensureAuth, favoriteController.index);
 router.post("/favorites", ensureAuth, favoriteController.save);
@@ -29,5 +31,8 @@ router.delete("/favorites", ensureAuth, favoriteController.delete);
 
 router.post("/likes", ensureAuth, likeController.save);
 router.delete("/likes", ensureAuth, likeController.delete);
+
+
+
 
 export { router };
