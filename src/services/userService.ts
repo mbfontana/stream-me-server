@@ -38,6 +38,21 @@ export const userService = {
     return await User.create(attributes);
   },
 
+  getUserById: async (userId: number) => {
+    return await User.findOne({
+      where: { id: userId },
+      attributes: [
+        "id",
+        ["first_name", "firstName"],
+        ["last_name", "lastName"],
+        "phone",
+        "birth",
+        "email",
+        "password",
+      ],
+    });
+  },
+
   getKeepWatchingList: async (userId: number) => {
     const userWithWatchingEpisodes = await User.findByPk(userId, {
       include: {
