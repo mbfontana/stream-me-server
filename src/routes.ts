@@ -17,8 +17,9 @@ router.get("/categories/:id", ensureAuth, categoryController.courses);
 
 router.get("/courses/featured", ensureAuth, courseController.featured);
 router.get("/courses/search", ensureAuth, courseController.search);
+router.get("/courses/popular", ensureAuth, courseController.topTen);
 router.get("/courses/releases", courseController.releases);
-router.get("/courses/:id", ensureAuth, courseController.episodes);
+router.get("/courses/:id", ensureAuth, courseController.details);
 
 router.get("/episodes/stream", ensureAuthViaQuery, episodeController.stream);
 

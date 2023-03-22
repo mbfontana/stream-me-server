@@ -3,7 +3,7 @@ import { Course } from "../models";
 
 export const courseService = {
   // Method to find a course by its ID and return its episodes
-  findByIdWithEpisodes: async (id: number) => {
+  findByIdWithEpisodes: async (userId: number, id: number) => {
     const courseDetails = await Course.findByPk(id, {
       attributes: ["id", "name", "synopsis", ["thumbnail_url", "thumbnailUrl"]],
       include: {
@@ -65,5 +65,20 @@ export const courseService = {
       perPage,
       total: count,
     };
+  },
+
+  findTopTenByLikes: async () => {
+    const query = await Course.sequelize?.query(
+      `
+      SELECT courses.id, courses.name, courses.synopsis,  courses.thumbnail_url, COUNT(users.id) as likes
+      FROM courses
+      LEFT OUTER JOIN likes ON courses.id = likes.course_id
+      INNER JOIN users ON users.id = likes.user_id
+      GROUP BY courses.id, likes.course_id
+      ORDER BY likes DESC
+      LIMIT 10;
+      `
+    );
+    return query ? query[0] : null;
   },
 };

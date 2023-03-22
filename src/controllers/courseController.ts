@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import getPaginationParams from "../helpers/getPaginationParams";
+import { AuthenticatedRequest } from "../middlewares/auth";
 import { courseService } from "../services/courseService";
+import { favoriteService } from "../services/favoriteService";
+import { likeService } from "../services/likeService";
 
 export const courseController = {
   // GET - /courses/featured
@@ -30,11 +33,25 @@ export const courseController = {
   },
 
   // GET - /courses/:id
-  episodes: async (req: Request, res: Response) => {
-    const { id } = req.params;
+  details: async (req: AuthenticatedRequest, res: Response) => {
+    const courseId = req.params.id;
+    const userId = req.user!.id;
     try {
-      const course = await courseService.findByIdWithEpisodes(Number(id));
-      return res.json(course);
+      const course = await courseService.findByIdWithEpisodes(
+        userId,
+        Number(courseId)
+      );
+
+      if (!course) {
+        res.status(404).json({ mesasge: "Course not found." });
+      } else {
+        const liked = await likeService.isLiked(userId, Number(courseId));
+        const favorited = await favoriteService.isFavorited(
+          userId,
+          Number(courseId)
+        );
+        return res.json({ course, favorited, liked });
+      }
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
@@ -58,6 +75,19 @@ export const courseController = {
         perPage
       );
       return res.json(foundCourses);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+      throw new Error("Unknown error while trying to query the database.");
+    }
+  },
+
+  // GET - /courses/popular
+  topTen: async (req: Request, res: Response) => {
+    try {
+      const topTen = await courseService.findTopTenByLikes();
+      return res.json(topTen);
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
