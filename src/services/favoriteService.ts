@@ -1,8 +1,12 @@
-import { Favorite } from "../models/Favorite";
+import { Favorite } from "../models";
 
 export const favoriteService = {
   create: async (userId: number, courseId: number) => {
     return await Favorite.create({ userId, courseId });
+  },
+
+  delete: async (userId: number, courseId: number) => {
+    return await Favorite.destroy({ where: { userId, courseId } });
   },
 
   findByUserId: async (userId: number) => {

@@ -14,7 +14,7 @@ export const favoriteController = {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
       }
-      throw new Error("Unknown error while trying to add new favorite course.");
+      throw new Error("Unknown error while trying to query favorite courses.");
     }
   },
 
@@ -31,6 +31,22 @@ export const favoriteController = {
         return res.status(400).json({ message: err.message });
       }
       throw new Error("Unknown error while trying to add new favorite course.");
+    }
+  },
+
+  // DELETE - /favorites
+  delete: async (req: AuthenticatedRequest, res: Response) => {
+    const { courseId } = req.body;
+    const userId = req.user!.id;
+
+    try {
+      await favoriteService.delete(userId, Number(courseId));
+      res.status(204).send();
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+      throw new Error("Unknown error while trying to delete favorite course.");
     }
   },
 };
