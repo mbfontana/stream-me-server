@@ -7,7 +7,9 @@ export interface WatchTime {
   seconds: number;
 }
 
-export interface WatchTimeInstance extends Model<WatchTime>, WatchTime {}
+export interface WatchTimeInstance extends Model<WatchTime>, WatchTime {
+  updatedAt: Date;
+}
 
 export const WatchTime = database.define<WatchTimeInstance, WatchTime>(
   "WatchTime",
