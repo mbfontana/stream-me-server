@@ -38,6 +38,37 @@ export const userService = {
     return await User.create(attributes);
   },
 
+  update: async (
+    userId: number,
+    attributes: {
+      firstName: string;
+      lastName: string;
+      phone: string;
+      birth: Date;
+      email: string;
+    }
+  ) => {
+    const [affectedRows, updatedUsers] = await User.update(attributes, {
+      where: { id: userId },
+      returning: true,
+    });
+
+    return updatedUsers[0];
+  },
+
+  updatePassword: async (userId: number, password: string) => {
+    const [affectedRows, updatedUsers] = await User.update(
+      { password },
+      {
+        where: { id: userId },
+        returning: true,
+        individualHooks: true,
+      }
+    );
+
+    return updatedUsers[0];
+  },
+
   getUserById: async (userId: number) => {
     return await User.findOne({
       where: { id: userId },

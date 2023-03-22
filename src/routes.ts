@@ -43,6 +43,8 @@ router.post("/likes", ensureAuth, likeController.save);
 router.delete("/likes", ensureAuth, likeController.delete);
 
 router.get("/users/account", ensureAuth, userController.index);
+router.put("/users/account", ensureAuth, userController.update);
+router.put("/users/account/password", ensureAuth, userController.updatePassword);
 router.get("/users/watching", ensureAuth, userController.watching);
 
 export { router };
