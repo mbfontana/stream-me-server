@@ -13,7 +13,7 @@ export const userController = {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
       }
-      throw new Error("Unknown error while trying to stream video.");
+      throw new Error("Unknown error while trying to fetch user.");
     }
   },
 
@@ -35,7 +35,7 @@ export const userController = {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
       }
-      throw new Error("Unknown error while trying to stream video.");
+      throw new Error("Unknown error while trying to update profile.");
     }
   },
 
@@ -44,20 +44,20 @@ export const userController = {
     const user = req.user!;
     const { currentPassword, newPassword } = req.body;
 
-    try {
-      user.checkPassword(currentPassword, async (err, isSame) => {
+    user.checkPassword(currentPassword, async (err, isSame) => {
+      try {
         if (err) throw err;
         if (!isSame) throw new Error("Incorrect password.");
 
         await userService.updatePassword(user.id, newPassword);
         return res.status(204).send();
-      });
-    } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).json({ message: err.message });
+      } catch (err) {
+        if (err instanceof Error) {
+          return res.status(400).json({ message: err.message });
+        }
+        throw new Error("Unknown error while trying to update password.");
       }
-      throw new Error("Unknown error while trying to stream video.");
-    }
+    });
   },
 
   // GET - /users/watching
@@ -71,7 +71,7 @@ export const userController = {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
       }
-      throw new Error("Unknown error while trying to stream video.");
+      throw new Error("Unknown error while trying to fetch watch times.");
     }
   },
 };
