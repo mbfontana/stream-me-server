@@ -40,7 +40,7 @@ router.post("/favorites", ensureAuth, favoriteController.save);
 router.delete("/favorites", ensureAuth, favoriteController.delete);
 
 router.post("/likes", ensureAuth, likeController.save);
-router.delete("/likes", ensureAuth, likeController.delete);
+router.delete("/likes/:id", ensureAuth, likeController.delete);
 
 router.get("/users/account", ensureAuth, userController.index);
 router.put("/users/account", ensureAuth, userController.update);

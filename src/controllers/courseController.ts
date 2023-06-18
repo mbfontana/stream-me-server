@@ -43,14 +43,14 @@ export const courseController = {
       );
 
       if (!course) {
-        res.status(404).json({ mesasge: "Course not found." });
+        res.status(404).json({ message: "Course not found." });
       } else {
         const liked = await likeService.isLiked(userId, Number(courseId));
         const favorited = await favoriteService.isFavorited(
           userId,
           Number(courseId)
         );
-        return res.json({ course, favorited, liked });
+        return res.json({ ...course.toJSON(), favorited, liked });
       }
     } catch (err) {
       if (err instanceof Error) {

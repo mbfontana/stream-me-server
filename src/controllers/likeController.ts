@@ -21,7 +21,7 @@ export const likeController = {
 
   // DELETE - /likes
   delete: async (req: AuthenticatedRequest, res: Response) => {
-    const { courseId } = req.body;
+    const courseId = req.params.id;
     const userId = req.user!.id;
 
     try {
